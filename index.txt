@@ -1,0 +1,25 @@
+# Clear existing credentials (if necessary)
+git credential-manager uninstall  # Windows
+git credential-osxkeychain erase  # macOS
+git config --global --unset credential.helper  # Linux
+rm ~/.git-credentials  # Linux
+
+# Set new global Git username and email
+git config --global user.name "Your New Username"
+git config --global user.email "yournewemail@example.com"
+
+# Update remote URL
+cd /path/to/your/repo
+git remote set-url origin https://github.com/new-username/your-repo.git
+
+# Re-authenticate with GitHub
+ssh-keygen -t ed25519 -C "yournewemail@example.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+cat ~/.ssh/id_ed25519.pub  # Copy this key and add it to your GitHub account
+
+# Update remote URL to use SSH (if applicable)
+git remote set-url origin git@github.com:new-username/your-repo.git
+
+# Push changes
+git push -u origin master
